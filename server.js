@@ -1,10 +1,12 @@
 const http = require('http');
 const Koa = require('koa');
-const koaBody = require('koa-body');
+const koaBody = require('koa-body').default;
 const cors = require('@koa/cors');
 const Router = require('koa-router');;
 const slow = require('koa-slow');
-import { faker } from '@faker-js/faker';
+// import { faker } from '@faker-js/faker';
+const { faker } = require('@faker-js/faker');
+
 const { v4: uuidv4 } = require('uuid');
 
 const app = new Koa();
@@ -16,12 +18,12 @@ app.use(
     allowMethods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   })
 )
-.use(koaBody({
+app.use(koaBody({
    urlencoded: true, 
    multipart: true,
    json: true, 
-  }))
-.use(
+  }));
+app.use(
   slow({
     delay: 6000,
   })
